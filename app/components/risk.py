@@ -114,4 +114,4 @@ def plain_words(feature: str, contrib: float, row: pd.DataFrame) -> str:
         lv = getattr(F._H, "LEVEL_LABELS", {}) if F._H is not None else {}
         desc = lv.get(str(v)) or f"{F.label(feature).lower()}: {F.label(str(v))}"
     direction = "raises" if contrib > 0 else "lowers"
-    return f"**{desc[0].upper() + desc[1:]}** {direction} the estimate compared with an average survivor in the training data."
+    return f"**{desc[0].upper() + desc[1:]}** {direction} the estimate."

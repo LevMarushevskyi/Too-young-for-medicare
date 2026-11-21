@@ -80,8 +80,7 @@ def caption(df: pd.DataFrame | None, source: str | None = None, weight: str | No
     srcs = source or (", ".join(sorted(df["source"].dropna().astype(str).unique())) if df is not None and "source" in df.columns and len(df) else "")
     if weight is None and df is not None and "weight_var" in df.columns:
         weight = ", ".join(sorted(df["weight_var"].dropna().astype(str).unique()))
-    parts = [f"Source: {srcs}" if srcs else None, f"Weight: {weight}" if weight else None,
-             CI_NOTE if ci else None, DAGGER_NOTE, SUPP_NOTE, extra]
+    parts = [srcs or None, (f"{weight} weight" + ("s" if "," in weight else "")) if weight else None, extra]
     return " · ".join(p for p in parts if p)
 
 
@@ -215,7 +214,7 @@ def hero_dumbbell(est: pd.DataFrame | None, tests: pd.DataFrame | None = None,
     fig.update_layout(margin=dict(r=80))
     fig.update_xaxes(title="Weighted % of survivors", range=[0, _xmax(d)], ticksuffix="%")
     fig.update_yaxes(title=None, categoryorder="array", categoryarray=ylab)
-    cap = caption(d, extra="Under 65 = blue, 65+ = grey")
+    cap = caption(d)
     return fig, cap
 
 
@@ -289,8 +288,8 @@ def age_curve(curve: pd.DataFrame | None, measure: str | None = None, show_n: bo
     fig.update_xaxes(title="Age band (points at weighted mean age)",
                      tickvals=list(vis["age_mid"]), ticktext=list(vis["age_band"]))
     src = c["source"].iloc[0] if "source" in c and len(c) else "NHIS 2021–2024"
-    return fig, caption(None, source=src, weight="WTFA_A / 4 (pooled)",
-                        extra="ribbon = 95% CI; ages top-coded at 85")
+    return fig, caption(None, source=src, weight="pooled WTFA_A / 4",
+                        extra="shaded band = 95% CI; ages top-coded at 85")
 
 
 def pooled_nhis(curve: pd.DataFrame | None, measure="prob_pay_bills", gap: pd.DataFrame | None = None):
@@ -341,12 +340,11 @@ def forest(or_df: pd.DataFrame | None, model: str):
                      color=DARK_GREY, thickness=1.5), hovertext=txt, hoverinfo="text", showlegend=False))
     age = d[[_is_age_term(t, l) for t, l in zip(d["term"], d["term_label"])]]
     n = int(d["n"].iloc[0]) if "n" in d and pd.notna(d["n"].iloc[0]) else None
-    title = f"Model {model}: adjusted odds ratios"
+    title = "Adjusted odds ratios"
     if len(age):
         a = age.iloc[0]
-        sig = "CI excludes 1" if (a["ci_lo"] > 1 or a["ci_hi"] < 1) else "CI includes 1"
-        title = (f"Model {model}: {a['term_label']} — adjusted OR {a['or']:.2f} "
-                 f"(95% CI {a['ci_lo']:.2f}–{a['ci_hi']:.2f}; {sig})")
+        title = (f"{a['term_label']}: adjusted odds ratio {a['or']:.2f} "
+                 f"(95% CI {a['ci_lo']:.2f}–{a['ci_hi']:.2f})")
     lo = max(0.02, float(d["ci_lo"].min()) * 0.8)
     hi = float(d["ci_hi"].max()) * 1.25
     layout(fig, _wrap(title, 90), height=max(320, 90 + 55 * len(d)))
@@ -357,13 +355,9 @@ def forest(or_df: pd.DataFrame | None, model: str):
     # Reference line at OR = 1 as a trace (a vline shape did not render on the log axis)
     fig.add_trace(go.Scatter(x=[1, 1], y=[d["term_label"].iloc[0], d["term_label"].iloc[-1]], mode="lines",
                              line=dict(color=INK, dash="dot", width=1), hoverinfo="skip", showlegend=False))
-    extra = f"Survey-weighted logistic regression (svyglm, quasibinomial); n = {n}" if n else "svyglm, quasibinomial"
-    if "lonely_psu_method" in d and pd.notna(d["lonely_psu_method"].iloc[0]):
-        extra += f"; lonely PSU = {d['lonely_psu_method'].iloc[0]}"
-    if sens:
-        extra += f" (sensitivity check with “{sens}” in the downloadable CSV)"
-    return fig, " · ".join([f"Source: MEPS 2024", "Weight: CSAQW24F", "Error bars are 95% CIs",
-                            "reference line at OR = 1", extra])
+    extra = "survey-weighted logistic regression" + (f", n = {n}" if n else "")
+    return fig, " · ".join(["MEPS 2024", "CSAQW24F weight", extra,
+                            "dotted line = no difference (OR = 1)"])
 
 
 # ---------------------------------------------------------------- grouped bars
@@ -505,7 +499,7 @@ def insurance_bars(est: pd.DataFrame | None, measure: str = "worry_bills", show_
     title = f"{label}: highest in “{top['group']}” ({top['pct']:.0f}%)"
     layout(fig, _wrap(title, 90), height=max(320, 90 + 50 * len(d)))
     fig.update_xaxes(title="Weighted %", range=[0, _xmax(d)], ticksuffix="%")
-    extra = f"{nsup} insurance group(s) suppressed (too few respondents)" if nsup else None
+    extra = (f"{nsup} insurance group{'s' if nsup > 1 else ''} hidden (too few respondents)") if nsup else None
     return fig, caption(d, extra=extra)
 
 
@@ -580,7 +574,7 @@ def unexpected_expense(ue: pd.DataFrame | None, by: str = "income", show_n: bool
     fig.update_yaxes(categoryorder="array", categoryarray=order[::-1])
     fig.update_layout(legend=dict(traceorder="normal"))
     sup_any = bool(ue["suppressed"].astype(bool).any())
-    extra = "FWUNEXP42; grey = suppressed categories combined (too few respondents to show separately)" if sup_any else "FWUNEXP42"
+    extra = "grey = categories combined because too few respondents to show separately" if sup_any else None
     return fig, caption(None, source="MEPS 2024", weight="PERWT24F", ci=False, extra=extra)
 
 
@@ -605,8 +599,7 @@ def calibration(cal: pd.DataFrame | None):
     layout(fig, "Calibration: predicted vs observed risk by bin of predicted risk", height=400)
     fig.update_xaxes(title="Mean predicted probability", range=[0, min(1, m)])
     fig.update_yaxes(title="Observed rate (weighted)", range=[0, min(1, m)])
-    return fig, ("NHIS: 10 bins; MEPS: 5 bins (fewer events) · observed rate blank if bin n < 30 or events < 5 · "
-                 f"faded points {DAGGER} = bin n < 60 · weighted by survey weights")
+    return fig, (f"NHIS: 10 bins; MEPS: 5 bins (fewer events) · survey-weighted · faded points {DAGGER} = bin n < 60")
 
 
 def importance(imp: pd.DataFrame | None):
@@ -620,7 +613,8 @@ def importance(imp: pd.DataFrame | None):
     layout(fig, f"{top} contributes most to the model's predictions", height=max(300, 80 + 40 * len(d)))
     meth = d["method"].iloc[0] if "method" in d else "permutation importance"
     fig.update_xaxes(title=f"Importance ({meth})")
-    return fig, f"Method: {meth} · error bars = ±1 SD across repeats"
+    nice = "Permutation importance: drop in AUC when a feature is shuffled" if "permutation" in str(meth) else meth
+    return fig, f"{nice} · error bars = ±1 SD across repeats"
 
 
 def risk_compare(p: float, avg: float | None, age_label: str, p_alt: float | None = None, alt_label: str = ""):

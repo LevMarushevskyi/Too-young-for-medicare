@@ -15,17 +15,15 @@ from components.common import page_setup, show_chart  # noqa: E402
 
 page_setup("Risk Tool")
 card = D.model_card() or {}
-st.title("Financial hardship risk screen (demo)")
-st.error("**Not a clinical or financial decision tool.** "
-         + card.get("intended_use", "Education and screening demonstration for a student datathon. "
-                                    "Not for clinical or financial decisions."), icon="⚠️")
+st.title("Financial hardship risk screen")
+st.warning("**Education and screening demo only.** Not for clinical or financial decisions.", icon="⚠️")
 st.markdown(f"Estimates the chance that a person with a breast cancer history reports "
             f"**{card.get('outcome', 'problems paying medical bills in the past 12 months').lower()}**. "
-            "Trained on NHIS 2021–2024 and tested on MEPS 2024, a different national survey.")
+            "Trained on NHIS 2021–2024 and tested on MEPS 2024.")
 
 model, err = D.risk_model()
 if model is None:
-    st.warning(err + " The risk tool will appear here once the ML lane writes the model.")
+    st.warning(err + " Run `make model` to build it.")
 
 # ---- inputs
 age = st.slider("Age", 18, 85, 50)
@@ -38,7 +36,7 @@ with st.form("inputs"):
         mode = st.radio("Household income", ["Enter income and household size", "Choose a band"], horizontal=True)
         income = st.number_input("Annual household income ($)", 0, 2_000_000, 40_000, step=1_000)
         hh = st.number_input("Household size", 1, 12, 2)
-        band_direct = st.selectbox("Income band (if choosing directly)", F.FPL_BANDS, index=2, format_func=F.label)
+        band_direct = st.selectbox("Income band", F.FPL_BANDS, index=2, format_func=F.label)
     with c2:
         region = st.selectbox("Region", F.REGIONS, format_func=F.label)
         employed = st.checkbox("Currently employed", value=True)
@@ -102,8 +100,7 @@ if model is not None:
     try:
         p = R.predict(model, row)
     except Exception as e:  # noqa: BLE001
-        st.error(f"The model could not score this input ({type(e).__name__}: {e}). "
-                 "Feature categories may not match python/harmonize.py.")
+        st.error(f"The model could not score this input ({type(e).__name__}: {e}).")
         p = None
     if p is not None:
         p_alt = None
@@ -118,12 +115,12 @@ if model is not None:
         st.divider()
         o1, o2 = st.columns([1, 2])
         with o1:
-            st.metric("Estimated probability", f"{p * 100:.0f}%")
+            st.metric("Estimated risk", f"{p * 100:.0f}%")
             tier, color = _tier(p)
             if tier:
                 st.markdown(f"<span style='background:{color};color:white;padding:4px 12px;border-radius:12px;"
                             f"font-weight:600'>{tier} risk</span>", unsafe_allow_html=True)
-                st.caption("Tiers are weighted tertiles of predicted risk in the NHIS training data.")
+                st.caption("Tiers split the training population into thirds by predicted risk.")
             if p_alt is not None:
                 st.metric("Same person at 65, Medicare + private", f"{p_alt * 100:.0f}%",
                           delta=f"{(p_alt - p) * 100:+.0f} points", delta_color="inverse")
@@ -135,14 +132,15 @@ if model is not None:
         st.subheader("What drives this estimate")
         contribs = R.contributions(D.logit_explain(), row)
         if contribs:
+            st.markdown("Compared with an average survivor in the training data:")
             for f_, c_ in contribs[:3]:
                 st.markdown("- " + R.plain_words(f_, c_, row))
             st.plotly_chart(C.contributions_bar([(F.label(f_), c_) for f_, c_ in contribs[:6]]),
                             width="stretch", config={"displaylogo": False})
-            st.caption("Contribution = logistic-regression coefficient × (this person's value − training average), "
-                       "on the log-odds scale. Associations, not causes.")
+            st.caption("Each bar shows how far this answer moves the estimate from an average survivor "
+                       "(log-odds scale). Associations, not causes.")
         else:
-            st.info("Factor explanations are not available yet (models/logit_explain.json missing or unreadable).")
+            st.info("Factor explanations are not available (models/logit_explain.json missing).")
 
         st.subheader("Next steps")
         st.markdown("- Ask your cancer center whether it has a **financial navigator** or financial counselor.\n"
@@ -176,16 +174,16 @@ with st.expander("Model performance"):
                     ci = (f"fold range ±1 SD {r['ci_lo']:.2f}–{r['ci_hi']:.2f}" if ds == "nhis_cv"
                           else f"bootstrap 95% CI {r['ci_lo']:.2f}–{r['ci_hi']:.2f}")
                 st.metric(lab, f"{float(r['value']):.3f}", delta=ci or None, delta_color="off")
-    st.caption(f"Model: {card.get('model', 'n/a')} · training n = {card.get('train_n', 'n/a')} · "
-               f"external n = {card.get('external_n', 'n/a')} ({card.get('external_events', 'n/a')} events). "
-               "MEPS is a different survey with different item wording and a family-level outcome; with so few "
-               "external events its AUC CI is wide, so do not read a higher or lower MEPS AUC as a real difference.")
+    ev = card.get("external_events")
+    st.caption(f"Calibrated logistic regression · trained on NHIS (n = {card.get('train_n', 'n/a')}) · "
+               f"tested on MEPS 2024 (n = {card.get('external_n', 'n/a')}" + (f", {ev} events" if ev else "") + "). "
+               "With few MEPS events the external CI is wide, so the two AUCs are not meaningfully different.")
     fig, cap = C.calibration(D.load("ml_calibration.csv"))
     show_chart(fig, cap, missing="Calibration table not available yet (ml_calibration.csv).")
     if mt is not None and "subgroup" in mt.columns:
         sub = mt[mt["subgroup"].fillna("").astype(str).str.strip() != ""]
         if len(sub):
-            st.markdown("**Subgroup performance** (groups with n < 50 or < 5 events suppressed by the ML lane)")
+            st.markdown("**Subgroup performance** (groups with n < 50 or fewer than 5 events are hidden)")
             sub = sub.copy()
             if "model" in sub and sub["model"].nunique() > 1:
                 mn = sub["model"].astype(str).str.lower()

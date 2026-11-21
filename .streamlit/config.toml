@@ -1,0 +1,7 @@
+[theme]
+# Light theme only (no dark mode, regardless of the viewer's system setting)
+base = "light"
+primaryColor = "#0072B2"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F2F6FA"
+textColor = "#222222"

@@ -19,45 +19,40 @@ st.dataframe(pd.DataFrame([
      "Link": "https://meps.ahrq.gov/mepsweb/data_stats/download_data_files_detail.jsp?cboPufNumber=HC-256"},
     {"Source": "NHIS Sample Adult (CDC/NCHS)", "Years": "2021–2024 pooled", "Role": "Supplement: age curve; ML training data",
      "Link": "https://www.cdc.gov/nchs/nhis/documentation/2024-nhis.html"},
-    {"Source": "Published literature, SEER, ACS, CMS", "Years": "n/a", "Role": "Context cards (numbers only, cited)",
-     "Link": "see references below"},
+    {"Source": "Published literature, SEER, ACS, CMS", "Years": "n/a", "Role": "Context (cited below)",
+     "Link": None},
 ]), hide_index=True, width="stretch",
     column_config={"Link": st.column_config.LinkColumn("Link")})
 
 st.header("Survey design and weights")
 st.markdown(
-    "Each MEPS instrument has its own weight. Every estimate declares the design on the **full** MEPS file "
-    "(all persons), then subsets to the cohort: "
-    "`svydesign(ids = ~VARPSU, strata = ~VARSTR, weights = ~<weight>, nest = TRUE)` → "
-    "`subset(design, breast & <weight> > 0)`, with `options(survey.lonely.psu = \"adjust\")`. "
-    "MEPS estimates also set `survey.adjust.domain.lonely = TRUE` to match the team's script. This conservative "
-    "domain adjustment widens MEPS CIs; it is not standard AHRQ practice and NHIS does not use it. "
-    "Point estimates do not change. With it off, the Model B under-65 CI is 1.75–8.16 instead of 1.58–9.01 "
-    "(rows `adjust_nodomain` in meps_model_or.csv). "
-    "Age-gap p-values: `p_value` is the Rao-Scott chi-square, and `p_wald` is the Wald test on the difference, which "
-    "matches the CI shown. For problems paying bills (p_wald 0.074) and cost-related delayed care (p_wald 0.10) "
-    "the CI includes 0, so these gaps are borderline, not significant.")
+    "- **Design first, then subset.** Each estimate declares the design on the full MEPS file "
+    "(`svydesign(ids = ~VARPSU, strata = ~VARSTR, weights = ~<weight>, nest = TRUE)`), then subsets to the cohort; "
+    "`survey.lonely.psu = \"adjust\"`.\n"
+    "- **Conservative domain adjustment.** MEPS estimates also set `survey.adjust.domain.lonely = TRUE` (as in the "
+    "team's script). It widens CIs but does not move point estimates; with it off, the Model B under-65 CI is "
+    "1.75–8.16 instead of 1.58–9.01.\n"
+    "- **Age-gap tests.** `p_value` is the Rao-Scott chi-square; `p_wald` tests the difference and matches the CI shown. "
+    "Problems paying bills (p_wald 0.074) and cost-related delayed care (0.10) are borderline, not significant.")
 st.dataframe(pd.DataFrame([
     {"Items": "Cancer SAQ (CTRTMT42, CFN*, CDL*, CEF*, CFCARE42, CBCK42)", "Weight": "CSAQW24F"},
     {"Items": "Experiences with care SAQ (EQ*, incl. EQSBAS53)", "Weight": "ESAQWT24F"},
     {"Items": "Everything else (FW items, PROBPY42, access to care, expenditures)",
      "Weight": "PERWT24F (HC-256 has no separate financial-wellbeing weight)"},
 ]), hide_index=True, width="stretch")
-st.markdown("NHIS: four years stacked, pooled weight `WTFA_A / 4`, design `ids = ~PPSU, strata = ~PSTRAT, nest = TRUE`, "
-            "cohort subset after design declaration.")
+st.markdown("NHIS: four years stacked, pooled weight `WTFA_A / 4`, design `ids = ~PPSU, strata = ~PSTRAT`, "
+            "cohort subset after declaring the design.")
 
 st.header("Small-cell rule")
-st.markdown("- The unweighted n behind every estimate is computed.\n"
-            "- **Suppressed** (not plotted, printed or shown in tooltips or downloads) if the unweighted denominator "
-            "n < 30 or the numerator count < 5.\n"
-            "- **Flagged** (faded, marked †) if n < 60 or the relative standard error > 30%.\n"
-            "- No cell with fewer than 5 respondents appears anywhere in the app.")
+st.markdown("- **Hidden** everywhere (charts, tooltips, downloads) if the unweighted denominator is under 30 "
+            "or fewer than 5 respondents had the outcome.\n"
+            "- **Flagged** (faded, marked †) if n < 60 or the relative standard error is over 30%.")
 
 st.header("Cohorts")
 card = D.model_card() or {}
 st.markdown(
-    "- **MEPS 2024:** adults (AGE24X ≥ 18) with CABREAST = 1 (ever told they had breast cancer). "
-    "The cohort uses CABREAST, not the team's original `breast_c50_current` flag.\n"
+    "- **MEPS 2024:** adults (AGE24X ≥ 18) with CABREAST = 1 (ever told they had breast cancer), "
+    "rather than the team's original `breast_c50_current` flag.\n"
     "- **NHIS 2021–2024:** adults with BREASCAN_A = 1 (ever told breast cancer), four years pooled. "
     f"ML training n = {card.get('train_n', 'pending')}"
     + (f" ({card.get('train_events')} with problems paying bills)" if card.get("train_events") else "") + "."
@@ -72,7 +67,7 @@ if nc is not None and len(nc):
     st.dataframe(nc, hide_index=True, width="stretch")
 tr = D.safe_df("meps_team_reproduction.csv")
 if tr is not None and len(tr):
-    with st.expander("Reproducing the team's original numbers (with the corrected weights)"):
+    with st.expander("Reproducing the team's original numbers"):
         st.dataframe(tr, hide_index=True, width="stretch")
 
 st.header("Risk model")
@@ -83,32 +78,24 @@ if card:
                 f"External test: {card.get('external_data', '')} (n = {card.get('external_n', 'n/a')})  \n"
                 f"Model: {card.get('model', '')}  \n"
                 f"Features: {', '.join(card.get('features', []))}")
-    ex = card.get("excluded_features_and_why") or {}
-    if ex:
-        st.markdown("Excluded: " + "; ".join(f"{k} ({v})" for k, v in ex.items()))
     met = card.get("metrics") or {}
     if met:
         st.dataframe(pd.DataFrame([{"metric": k, "value": str(v)} for k, v in met.items()]), hide_index=True)
-    if card.get("intended_use"):
-        st.caption("Intended use: " + card["intended_use"])
+    st.caption("Education and screening demo only; not for clinical or financial decisions.")
 else:
     st.info("Model card not available yet (models/model_card.json).")
-st.markdown("Harmonization caveats: MEPS insurance is “ever during 2024” while NHIS is coverage at interview; "
-            "MEPS PROBPY42 is family-level while NHIS PAYBLL12M_A is asked of the sample adult's family; "
-            "years since diagnosis and high-deductible plan exist only in NHIS and are excluded from the portable model. "
-            "Race/ethnicity is not a model input; it is used only to audit performance by subgroup. "
-            "Known limit: the 65+ insurance split is not like-for-like. *Medicare + private* is 49.2% of 65+ "
-            "survivors in NHIS training but 35.0% in the MEPS external set (unweighted). MEPS PRVEV24 means ever-private "
-            "in 2024, and Medigap/Medicare Advantage may be classified differently.")
+st.markdown("**Survey differences.**\n"
+            "- MEPS insurance is “ever during 2024”; NHIS is coverage at interview. *Medicare + private* is 49.2% of 65+ "
+            "survivors in NHIS but 35.0% in MEPS (unweighted).\n"
+            "- Years since diagnosis and high-deductible plan exist only in NHIS, so they are left out of the model.\n"
+            "- Race/ethnicity is not a model input; it is used only to check performance by subgroup.")
 
 st.header("Limitations")
 st.markdown("- Cross-sectional data: associations, not causation.\n"
             "- Self-reported outcomes.\n"
-            "- Small MEPS samples (cancer SAQ n ≈ 260–300), so confidence intervals are wide.\n"
-            "- Age is confounded with insurance and employment.\n"
-            "- MEPS and NHIS differ in item wording, reference periods and outcome level (person vs family).\n"
-            + "".join(f"- {x}\n" for x in card.get("limitations", []) if x not in
-                      ("cross-sectional survey data", "self-reported outcomes")))
+            "- Small MEPS samples (cancer questionnaire n ≈ 260), so confidence intervals are wide.\n"
+            "- Age is entangled with insurance and employment.\n"
+            "- MEPS and NHIS differ in item wording, reference periods and outcome level (person vs family).")
 
 st.header("References")
 ctx = D.context_stats()
@@ -127,15 +114,11 @@ REFS = {
     "cms_partd_2026": "Centers for Medicare & Medicaid Services. *Final CY 2026 Part D Redesign Program Instructions* (fact sheet). https://www.cms.gov/newsroom/fact-sheets/final-cy-2026-part-d-redesign-program-instructions",
     "hhs_fpl_2024": "Office of the Assistant Secretary for Planning and Evaluation, HHS. *2024 Poverty Guidelines* (risk-tool income bands). https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines",
 }
-for k, v in REFS.items():
-    used = [c["key"] for c in ctx.values() if c.get("cite") == k]
-    st.markdown(f"- **[{k}]** {v}" + (f"  \n  <small>cited for: {', '.join(used)}</small>" if used else ""),
-                unsafe_allow_html=True)
+st.markdown("\n".join(f"{i}. {v}" for i, v in enumerate(REFS.values(), 1)))
 st.markdown("**Software:** R `survey` (Lumley); R Core Team, *R*; scikit-learn (Pedregosa et al., JMLR 2011;12:2825–2830); "
             "Streamlit; Plotly.")
 
 st.header("Data use")
-st.markdown("All data are public-use and de-identified. We followed the MEPS and NHIS data use agreements: no attempt "
-            "was made to identify individuals, and small cells are suppressed. "
-            "This project uses public-use data from AHRQ's Medical Expenditure Panel Survey and NCHS's National Health "
-            "Interview Survey. The analyses and conclusions are the authors' own and are not endorsed by AHRQ, NCHS, or CDC.")
+st.markdown("All data are public-use and de-identified. Following the MEPS and NHIS data use agreements, we made no "
+            "attempt to identify individuals and hide small cells. The analyses and conclusions are the authors' own "
+            "and are not endorsed by AHRQ, NCHS, or CDC.")

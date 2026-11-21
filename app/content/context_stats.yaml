@@ -5,7 +5,7 @@
   text: "321,910 estimated new female breast cancer cases in 2026."
   cite: seer_statfacts
 - key: acs_median_age
-  text: "Median age at breast cancer diagnosis is 63, so about half of cases are diagnosed before age 63, before Medicare eligibility."
+  text: "The median age at breast cancer diagnosis is 63, so about half of patients are diagnosed before they are eligible for Medicare."
   cite: acs_howcommon
 - key: yabroff2016
   text: "Among U.S. cancer survivors, material financial hardship: 28.4% (ages 18-64) vs 13.8% (65+); psychological hardship: 31.9% vs 14.7%."
