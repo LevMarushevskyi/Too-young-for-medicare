@@ -20,6 +20,7 @@ LIGHT_BLUE = "#56B4E9"
 DARK_GREY = "#616161"
 FADE = 0.4
 DAGGER = "†"
+FONT = "IBM Plex Sans, Arial, sans-serif"  # matches .streamlit/config.toml
 CI_NOTE = "Error bars are 95% CIs"
 DAGGER_NOTE = f"{DAGGER} interpret with caution (n < 60 or RSE > 30%)"
 SUPP_NOTE = "cells with n < 30 or < 5 events are suppressed and not shown"
@@ -42,11 +43,11 @@ def family_of(measure: str) -> str:
 def layout(fig: go.Figure, title: str, height: int = 460, **kw) -> go.Figure:
     nlines = title.count("<br>") + 1
     top = 70 + 24 * nlines
-    fig.update_layout(template="simple_white", font=dict(size=14, color=INK),
+    fig.update_layout(template="simple_white", font=dict(size=14, color=INK, family=FONT),
                       
                       height=height + 26 * (nlines - 1), margin=dict(l=10, r=30, t=top, b=50),
                       legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0, xanchor="left"),
-                      hoverlabel=dict(font_size=13), **kw)
+                      hoverlabel=dict(font=dict(size=13, family=FONT)), **kw)
     fig.add_annotation(text=title, name="chart_title", x=0, xref="paper", xanchor="left", xshift=-(fig.layout.margin.l or 0) + 4,
                        y=1, yref="paper", yanchor="bottom", showarrow=False, align="left", font=dict(size=17, color=INK))
     return fix_title(fig)
@@ -207,8 +208,9 @@ def hero_dumbbell(est: pd.DataFrame | None, tests: pd.DataFrame | None = None,
         lead = next((r for r in paired if r["measure"] == "any_csaq_strain"), max(paired, key=lambda r: r["gap"]))
         u, o = lead["u"]["pct"], lead["o"]["pct"]
         nhigher = sum(r["gap"] > 0 for r in paired)
-        title = (f"Survivors under 65 were {_likely_phrase(u, o)} to report {lead['label'].lower()} "
-                 f"({u:.0f}% vs {o:.0f}%)<br><sup>Under-65 estimate higher on {nhigher} of {len(paired)} measures · "
+        title = (_wrap(f"Survivors under 65 were {_likely_phrase(u, o)} to report {lead['label'].lower()} "
+                       f"({u:.0f}% vs {o:.0f}%)", 80)
+                 + f"<br><sup>Under-65 estimate higher on {nhigher} of {len(paired)} measures · "
                  f"gap in percentage points at right</sup>")
     layout(fig, title, height=max(380, 70 + 48 * len(rows)))
     fig.update_layout(margin=dict(r=80))

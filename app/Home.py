@@ -26,25 +26,24 @@ pair = age_gap_pair(est, "any_csaq_strain") or age_gap_pair(est, "worry_bills")
 with c1:
     if pair:
         u, o = pair
-        st.metric(f"{u['measure_label']}: under 65 vs 65+", f"{u['pct']:.0f}% vs {o['pct']:.0f}%",
-                  delta=f"{u['pct'] - o['pct']:+.0f} pp gap", delta_color="off")
-        st.caption("MEPS 2024, survey-weighted")
+        st.metric(f"{u['measure_label']}: under 65 vs 65+", f"{u['pct']:.0f}% vs {o['pct']:.0f}%")
+        st.caption(f"A {u['pct'] - o['pct']:.0f}-point gap · MEPS 2024, survey-weighted")
     else:
         st.metric("Any financial strain: under 65 vs 65+", "pending")
 with c2:
     t = model_age_term(or_df, "B")
     if t is not None:
-        st.metric(f"Adjusted odds ratio: {t['term_label']}", f"{t['or']:.1f}",
-                  delta=f"95% CI {t['ci_lo']:.1f}–{t['ci_hi']:.1f}", delta_color="off")
-        st.caption("Odds of worrying about medical bills, adjusted for treatment and income")
+        st.metric(f"Adjusted odds ratio: {t['term_label']}", f"{t['or']:.1f}")
+        st.caption(f"95% CI {t['ci_lo']:.1f}–{t['ci_hi']:.1f} · odds of worrying about medical bills, "
+                   "adjusted for treatment and income")
     else:
         st.metric("Adjusted OR, under 65 (Model B)", "pending")
 with c3:
     a = external_auc()
     if a:
-        ci = f"95% CI {a[1]:.2f}–{a[2]:.2f}" if a[1] is not None and pd.notna(a[1]) and a[2] is not None and pd.notna(a[2]) else "point estimate"
-        st.metric("Risk tool accuracy (AUC) on MEPS 2024", f"{a[0]:.2f}", delta=ci, delta_color="off")
-        st.caption("Trained on a different survey (NHIS 2021–2024); 0.5 = coin flip, 1.0 = perfect")
+        ci = f"95% CI {a[1]:.2f}–{a[2]:.2f} · " if a[1] is not None and pd.notna(a[1]) and a[2] is not None and pd.notna(a[2]) else ""
+        st.metric("Risk tool accuracy (AUC) on MEPS 2024", f"{a[0]:.2f}")
+        st.caption(f"{ci}trained on a different survey (NHIS 2021–2024); 0.5 = coin flip, 1.0 = perfect")
     else:
         st.metric("Risk tool external AUC (MEPS 2024)", "pending")
 
@@ -66,9 +65,9 @@ with st.container(border=True):
 st.subheader("Explore")
 l1, l2, l3 = st.columns(3)
 with l1:
-    st.page_link("pages/1_Findings.py", label="Findings: the under-65 gap", icon="📊")
+    st.page_link("pages/1_Findings.py", label="Findings: the under-65 gap →")
 with l2:
-    st.page_link("pages/2_Risk_Tool.py", label="Risk tool", icon="🧮")
+    st.page_link("pages/2_Risk_Tool.py", label="Risk tool →")
 with l3:
-    st.page_link("pages/3_Methods_and_Sources.py", label="Methods and sources", icon="📚")
+    st.page_link("pages/3_Methods_and_Sources.py", label="Methods and sources →")
 

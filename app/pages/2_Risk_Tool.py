@@ -16,7 +16,7 @@ from components.common import page_setup, show_chart  # noqa: E402
 page_setup("Risk Tool")
 card = D.model_card() or {}
 st.title("Financial hardship risk screen")
-st.warning("**Education and screening demo only.** Not for clinical or financial decisions.", icon="⚠️")
+st.warning("**Education and screening demo only.** Not for clinical or financial decisions.")
 st.markdown(f"Estimates the chance that a person with a breast cancer history reports "
             f"**{card.get('outcome', 'problems paying medical bills in the past 12 months').lower()}**. "
             "Trained on NHIS 2021–2024 and tested on MEPS 2024.")
@@ -92,7 +92,7 @@ def _tier(p):
     if p <= lo:
         return "Low", "#2E7D32"
     if p <= mo:
-        return "Moderate", "#E69F00"
+        return "Moderate", "#B26B00"
     return "High", C.ACCENT
 
 
@@ -118,12 +118,12 @@ if model is not None:
             st.metric("Estimated risk", f"{p * 100:.0f}%")
             tier, color = _tier(p)
             if tier:
-                st.markdown(f"<span style='background:{color};color:white;padding:4px 12px;border-radius:12px;"
+                st.markdown(f"<span style='color:{color};font-size:1.25rem;"
                             f"font-weight:600'>{tier} risk</span>", unsafe_allow_html=True)
                 st.caption("Tiers split the training population into thirds by predicted risk.")
             if p_alt is not None:
-                st.metric("Same person at 65, Medicare + private", f"{p_alt * 100:.0f}%",
-                          delta=f"{(p_alt - p) * 100:+.0f} points", delta_color="inverse")
+                st.metric("Same person at 65, Medicare + private", f"{p_alt * 100:.0f}%")
+                st.caption(f"{abs(p_alt - p) * 100:.0f} points {'lower' if p_alt < p else 'higher'} than today")
         with o2:
             agl = "Under 65" if age < 65 else "65+"
             st.plotly_chart(C.risk_compare(p, _avg_for_age(age < 65), agl, p_alt, "Same person at 65, Medicare + private"),
@@ -173,7 +173,9 @@ with st.expander("Model performance"):
                 if pd.notna(r.get("ci_lo", None)) and pd.notna(r.get("ci_hi", None)) and r.get("ci_lo") is not None:
                     ci = (f"fold range ±1 SD {r['ci_lo']:.2f}–{r['ci_hi']:.2f}" if ds == "nhis_cv"
                           else f"bootstrap 95% CI {r['ci_lo']:.2f}–{r['ci_hi']:.2f}")
-                st.metric(lab, f"{float(r['value']):.3f}", delta=ci or None, delta_color="off")
+                st.metric(lab, f"{float(r['value']):.3f}")
+                if ci:
+                    st.caption(ci)
     ev = card.get("external_events")
     st.caption(f"Calibrated logistic regression · trained on NHIS (n = {card.get('train_n', 'n/a')}) · "
                f"tested on MEPS 2024 (n = {card.get('external_n', 'n/a')}" + (f", {ev} events" if ev else "") + "). "

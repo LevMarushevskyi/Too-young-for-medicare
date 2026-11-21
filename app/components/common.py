@@ -8,8 +8,8 @@ from components import charts as C
 from components import data as D
 
 
-def page_setup(title: str, icon: str = "🎗️"):
-    st.set_page_config(page_title=f"{title} · Too Young for Medicare", page_icon=icon, layout="wide")
+def page_setup(title: str):
+    st.set_page_config(page_title=f"{title} · Too Young for Medicare", layout="wide")
     D.mock_banner()
 
 

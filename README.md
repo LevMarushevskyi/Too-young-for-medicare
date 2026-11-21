@@ -198,6 +198,7 @@ Verification notes for every cited number are in [`docs/citation_check.md`](docs
 - Pedregosa F, et al. Scikit-learn: Machine learning in Python. *J Mach Learn Res.* 2011;12:2825–2830.
 - Streamlit. https://streamlit.io
 - Plotly Technologies Inc. *Plotly Python Open Source Graphing Library.* https://plotly.com/python/
+- IBM Plex Sans typeface (IBM Corp.), SIL Open Font License 1.1, self-hosted in `app/static/fonts/`.
 
 ## Data use
 

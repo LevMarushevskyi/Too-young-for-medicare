@@ -1,3 +1,7 @@
+[server]
+# serves app/static/ (self-hosted fonts) at app/static/...
+enableStaticServing = true
+
 [theme]
 # Light theme only (no dark mode, regardless of the viewer's system setting)
 base = "light"
@@ -5,3 +9,40 @@ primaryColor = "#0072B2"
 backgroundColor = "#FFFFFF"
 secondaryBackgroundColor = "#F2F6FA"
 textColor = "#222222"
+# IBM Plex Sans, self-hosted (SIL Open Font License; see app/static/fonts/OFL.txt)
+font = "IBM Plex Sans, sans-serif"
+headingFont = "IBM Plex Sans, sans-serif"
+headingFontWeights = [600, 600, 600, 600, 600, 600]
+# square corners on boxes, inputs and buttons
+baseRadius = "none"
+buttonRadius = "none"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-latin-400-normal.woff2"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-latin-400-italic.woff2"
+weight = 400
+style = "italic"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-latin-500-normal.woff2"
+weight = 500
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-latin-600-normal.woff2"
+weight = 600
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-latin-700-normal.woff2"
+weight = 700
+style = "normal"

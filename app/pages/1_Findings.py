@@ -23,7 +23,8 @@ ctx = D.context_stats()
 # ---- sidebar
 with st.sidebar:
     st.header("Filters")
-    fams = st.multiselect("Measure family (hero chart)", list(C.FAMILIES), default=list(C.FAMILIES))
+    st.markdown("**Measures in the gap chart**")
+    fams = [f for f in C.FAMILIES if st.checkbox(f, value=True, key=f"fam_{f}")]
     show_n = st.toggle("Show unweighted n in hover text", value=False)
     st.divider()
     st.subheader("Download processed data")

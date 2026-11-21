@@ -171,7 +171,7 @@ def context_stats() -> dict:
 def mock_banner():
     if USING_MOCK:
         st.warning("DEVELOPMENT MODE: showing MOCK data (TYFM_DATA_DIR points to a mock directory). "
-                   "These numbers are invented.", icon="⚠️")
+                   "These numbers are invented.")
 
 
 def metric(df: pd.DataFrame | None, dataset: str, metric_name: str, subgroup: str | None = None):
