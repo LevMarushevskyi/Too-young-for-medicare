@@ -206,3 +206,26 @@ The project uses only public-use, de-identified data. We did not attempt to re-i
 ## Acknowledgment
 
 "This project uses public-use data from the Agency for Healthcare Research and Quality's Medical Expenditure Panel Survey and the National Center for Health Statistics' National Health Interview Survey. The analyses and conclusions are the authors' own and are not endorsed by AHRQ, NCHS, or CDC. Built for the 2026 Public Health Datathon (Biokind × Undergraduate Biostatistics Student Association)."
+
+## Run the app locally
+
+The app reads only the small aggregate files that are committed (`data/processed/`, `models/`, `app/content/`). You do **not** need to download MEPS or NHIS, or install R, to run it.
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/LevMarushevskyi/Ctr-Alt-Elite.git
+   cd Ctr-Alt-Elite
+   ```
+2. **Create a Python 3.11 environment and install the requirements.** scikit-learn is pinned to 1.9.1 because the saved model was built with it.
+   ```bash
+   python3.11 -m venv .venv
+   source .venv/bin/activate          # Windows: .venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+3. **Start the app:**
+   ```bash
+   streamlit run app/Home.py          # or: make app
+   ```
+4. **Open it.** Go to http://localhost:8501 if a browser tab doesn't open on its own. Use the sidebar to switch between **Findings**, **Risk Tool**, and **Methods and Sources**. Stop the server with `Ctrl+C`.
+
+To rebuild every number from the raw data, you need R 4.x and the raw files (see "Getting the data"). Then run `make all` before starting the app.
