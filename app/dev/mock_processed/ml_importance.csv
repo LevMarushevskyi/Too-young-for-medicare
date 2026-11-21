@@ -1,0 +1,6 @@
+feature,feature_label,importance,importance_sd,method
+insurance,Insurance type,0.04,0.005,permutation (AUC drop)
+fpl_band,Income (% of poverty line),0.035,0.004,permutation (AUC drop)
+age,Age,0.03,0.004,permutation (AUC drop)
+health_fair_poor,Fair/poor health,0.02,0.003,permutation (AUC drop)
+region,Region,0.004,0.002,permutation (AUC drop)

@@ -1,0 +1,27 @@
+- key: seer_prevalence
+  text: "An estimated 4,238,585 women were living with female breast cancer in the U.S. in 2023."
+  cite: seer_statfacts
+- key: seer_new_cases
+  text: "321,910 estimated new female breast cancer cases in 2026."
+  cite: seer_statfacts
+- key: acs_median_age
+  text: "Median age at breast cancer diagnosis is 63, so about half of cases are diagnosed before age 63, before Medicare eligibility."
+  cite: acs_howcommon
+- key: yabroff2016
+  text: "Among U.S. cancer survivors, material financial hardship: 28.4% (ages 18-64) vs 13.8% (65+); psychological hardship: 31.9% vs 14.7%."
+  cite: yabroff2016
+- key: kwon2025
+  text: "At 65, Medicare coverage among cancer survivors jumped from 8.3% to 98.2%; worry about paying medical bills fell 7.7 percentage points and cost-related delayed care fell 5.7 points."
+  cite: kwon2025
+- key: banegas2018
+  text: "Average 5-year breast cancer treatment cost: $198,400 for patients under 65 vs $116,800 for 65+."
+  cite: banegas2018
+- key: yabroff2022
+  text: "Medical financial hardship is associated with higher mortality risk among cancer survivors."
+  cite: yabroff2022
+- key: politi2021
+  text: "After breast cancer surgery, patients 65+ reported financial toxicity scores 2.58 points lower than patients under 65."
+  cite: politi2021
+- key: cms_partd
+  text: "Medicare Part D caps annual out-of-pocket drug costs at $2,100 in 2026 (not covering Part B infused drugs)."
+  cite: cms_partd_2026

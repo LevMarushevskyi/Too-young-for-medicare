@@ -1,0 +1,71 @@
+{
+  "name": "Breast cancer survivor medical-bill hardship risk (demo)",
+  "outcome": "Problems paying medical bills, past 12 months",
+  "train_data": "NHIS Sample Adult 2021-2024, adults with breast cancer history",
+  "train_n": 2892,
+  "train_events": 282,
+  "external_data": "MEPS HC-256 2024, adults with breast cancer (CABREAST=1)",
+  "external_n": 368,
+  "model": "Calibrated L2 logistic regression (sigmoid, 5-fold CalibratedClassifierCV)",
+  "model_selection": {
+    "rule": "M1 unless M2 CV AUC >= M1 + 0.02",
+    "m1_cv_auc": 0.7387,
+    "m2_cv_auc": 0.7197,
+    "picked": "M1"
+  },
+  "features": [
+    "age",
+    "under65",
+    "fpl_band",
+    "insurance",
+    "region",
+    "employed",
+    "health_fair_poor",
+    "married",
+    "college"
+  ],
+  "excluded_features_and_why": {
+    "race_ethnicity": "used for fairness audit only",
+    "years_since_diagnosis": "NHIS-only; not available in MEPS, excluded from portable model",
+    "high_deductible_plan": "NHIS-only; not available in MEPS, excluded from portable model",
+    "urban_rural": "URBRRL not on the 2024 NHIS public file"
+  },
+  "metrics": {
+    "nhis_cv_auc": 0.7391,
+    "nhis_cv_auc_sd": 0.0389,
+    "nhis_cv_brier": 0.0933,
+    "meps_auc": 0.7929,
+    "meps_auc_ci": [
+      0.6992,
+      0.8705
+    ],
+    "meps_brier": 0.0671,
+    "meps_cal_intercept": -0.3123,
+    "meps_cal_slope": 1.0378,
+    "meps_prevalence_obs": 0.0755,
+    "meps_prevalence_pred": 0.098,
+    "meps_auc_ci_method": "percentile bootstrap, 1000 person resamples, weighted AUC"
+  },
+  "risk_tiers": {
+    "low_max": 0.0599,
+    "moderate_max": 0.1184,
+    "method": "weighted tertiles of predicted risk, NHIS training data"
+  },
+  "intended_use": "Education and screening demonstration for a student datathon. Not for clinical or financial decisions.",
+  "limitations": [
+    "cross-sectional survey data",
+    "self-reported outcomes",
+    "insurance and outcome definitions differ slightly across surveys",
+    "small MEPS test set",
+    "NHIS insurance is coverage at interview; MEPS is ever-covered in 2024",
+    "outcome refers to the respondent's family in both surveys",
+    "male survivors (n=36) included in NHIS training",
+    "65+ insurance split is not like-for-like: medicare_plus_private is 49.2% of 65+ in NHIS training (unweighted) vs 35.0% in the MEPS external set; MEPS PRVEV24 is ever-private in 2024 and Medigap/Medicare Advantage may be classified differently"
+  ],
+  "missing_data": "most-frequent (binary/categorical) or median (age) imputation inside the pipeline; no feature >5% missing, so no missing indicators",
+  "nhis_cv_ci_note": "ml_metrics nhis_cv ci_lo/ci_hi = mean -/+ 1 SD over 5 folds",
+  "fpl_guidelines": "2024 HHS poverty guidelines, 48 contiguous states + DC: $15,060 + $5,380 per extra person; AK/HI not handled",
+  "sklearn_version": "1.9.1",
+  "created": "2026-11-21",
+  "external_events": 29
+}

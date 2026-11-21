@@ -1,0 +1,21 @@
+# person-level / large data — never commit
+data/raw/
+data/interim/
+*.dta
+# planning docs (kept local only)
+BUILD_GUIDE.md
+DATA_DOWNLOADS.md
+# env
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.Rhistory
+.RData
+# reference PDFs over 20 MB (download link in README > Getting the data)
+docs/reference/nhis2022_adult-codebook.pdf
+
+# public PDFs, downloadable via README links (~50 MB)
+docs/reference/*.pdf
+# team person-level MEPS extract (kept local; regenerate from h256)
+team_inputs/breast_analysis.csv

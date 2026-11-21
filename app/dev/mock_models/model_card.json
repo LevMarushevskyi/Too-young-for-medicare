@@ -1,0 +1,46 @@
+{
+  "name": "Breast cancer survivor medical-bill hardship risk (demo) [MOCK]",
+  "outcome": "Problems paying medical bills, past 12 months",
+  "train_data": "MOCK synthetic data",
+  "train_n": 3000,
+  "train_events": 1514,
+  "external_data": "MOCK",
+  "external_n": 300,
+  "model": "L2 logistic regression (MOCK)",
+  "features": [
+    "age",
+    "under65",
+    "fpl_band",
+    "insurance",
+    "region",
+    "employed",
+    "health_fair_poor",
+    "married",
+    "college"
+  ],
+  "excluded_features_and_why": {
+    "race_ethnicity": "used for fairness audit only"
+  },
+  "metrics": {
+    "nhis_cv_auc": 0.72,
+    "nhis_cv_brier": 0.15,
+    "meps_auc": 0.66,
+    "meps_auc_ci": [
+      0.6,
+      0.71
+    ],
+    "meps_brier": 0.16
+  },
+  "risk_tiers": {
+    "low_max": 0.36686994139094026,
+    "moderate_max": 0.6358145308232358
+  },
+  "intended_use": "Education and screening demonstration for a student datathon. Not for clinical or financial decisions.",
+  "limitations": [
+    "cross-sectional survey data",
+    "self-reported outcomes",
+    "insurance and outcome definitions differ slightly across surveys",
+    "small MEPS test set"
+  ],
+  "created": "2026-11-21"
+}

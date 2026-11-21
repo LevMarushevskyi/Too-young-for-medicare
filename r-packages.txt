@@ -1,0 +1,9 @@
+# R packages used by R/01..05 (R >= 4.3)
+# install with: Rscript -e 'install.packages(readLines("r-packages.txt")[!grepl("^#", readLines("r-packages.txt"))])'
+survey
+haven
+dplyr
+readr
+tidyr
+purrr
+jsonlite

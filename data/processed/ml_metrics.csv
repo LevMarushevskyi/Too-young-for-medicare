@@ -1,0 +1,56 @@
+dataset,model,metric,value,ci_lo,ci_hi,subgroup
+nhis_cv,logistic_l2_uncalibrated,auc,0.7387,0.6988,0.7785,
+nhis_cv,logistic_l2_uncalibrated,brier,0.0936,0.0864,0.1008,
+nhis_cv,hist_gb_uncalibrated,auc,0.7197,0.6885,0.7508,
+nhis_cv,hist_gb_uncalibrated,brier,0.0951,0.0887,0.1015,
+nhis_cv,calibrated_logistic_l2,auc,0.7391,0.7001,0.778,
+nhis_cv,calibrated_logistic_l2,brier,0.0933,0.0864,0.1001,
+nhis_cv,calibrated_logistic_l2,cal_intercept,0.0007,-0.1478,0.1492,
+nhis_cv,calibrated_logistic_l2,cal_slope,1.0081,0.7352,1.281,
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1139,0.1059,0.122,
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1139,0.1075,0.1203,
+nhis_cv,calibrated_logistic_l2,auc,0.7155,,,age_group=65+
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.0763,,,age_group=65+
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.0801,,,age_group=65+
+nhis_cv,calibrated_logistic_l2,auc,0.6823,,,age_group=Under 65
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.179,,,age_group=Under 65
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1723,,,age_group=Under 65
+nhis_cv,calibrated_logistic_l2,auc,0.684,,,fpl_band=100-199%
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1987,,,fpl_band=100-199%
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1908,,,fpl_band=100-199%
+nhis_cv,calibrated_logistic_l2,auc,0.6884,,,fpl_band=200-399%
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1389,,,fpl_band=200-399%
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1365,,,fpl_band=200-399%
+nhis_cv,calibrated_logistic_l2,auc,0.6794,,,fpl_band=400%+
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.0518,,,fpl_band=400%+
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.0575,,,fpl_band=400%+
+nhis_cv,calibrated_logistic_l2,auc,0.5698,,,fpl_band=<100%
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1568,,,fpl_band=<100%
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1521,,,fpl_band=<100%
+nhis_cv,calibrated_logistic_l2,auc,0.6929,,,race_ethnicity=Hispanic
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1396,,,race_ethnicity=Hispanic
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1734,,,race_ethnicity=Hispanic
+nhis_cv,calibrated_logistic_l2,auc,,,,race_ethnicity=NH Asian (suppressed: n<50 or events<5)
+nhis_cv,calibrated_logistic_l2,prevalence_obs,,,,race_ethnicity=NH Asian (suppressed: n<50 or events<5)
+nhis_cv,calibrated_logistic_l2,prevalence_pred,,,,race_ethnicity=NH Asian (suppressed: n<50 or events<5)
+nhis_cv,calibrated_logistic_l2,auc,0.6323,,,race_ethnicity=NH Black
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1966,,,race_ethnicity=NH Black
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1618,,,race_ethnicity=NH Black
+nhis_cv,calibrated_logistic_l2,auc,0.7433,,,race_ethnicity=NH White
+nhis_cv,calibrated_logistic_l2,prevalence_obs,0.1014,,,race_ethnicity=NH White
+nhis_cv,calibrated_logistic_l2,prevalence_pred,0.1021,,,race_ethnicity=NH White
+nhis_cv,calibrated_logistic_l2,auc,,,,race_ethnicity=NH other/multiple (suppressed: n<50 or events<5)
+nhis_cv,calibrated_logistic_l2,prevalence_obs,,,,race_ethnicity=NH other/multiple (suppressed: n<50 or events<5)
+nhis_cv,calibrated_logistic_l2,prevalence_pred,,,,race_ethnicity=NH other/multiple (suppressed: n<50 or events<5)
+meps_external,calibrated_logistic_l2,auc,0.7929,0.6992,0.8705,
+meps_external,calibrated_logistic_l2,brier,0.0671,0.0455,0.0889,
+meps_external,calibrated_logistic_l2,cal_intercept,-0.3123,-0.8573,0.092,
+meps_external,calibrated_logistic_l2,cal_slope,1.0378,0.6215,1.5973,
+meps_external,calibrated_logistic_l2,prevalence_obs,0.0755,,,
+meps_external,calibrated_logistic_l2,prevalence_pred,0.098,,,
+meps_external,calibrated_logistic_l2,auc,0.7425,,,age_group=Under 65
+meps_external,calibrated_logistic_l2,prevalence_obs,0.1303,,,age_group=Under 65
+meps_external,calibrated_logistic_l2,prevalence_pred,0.1491,,,age_group=Under 65
+meps_external,calibrated_logistic_l2,auc,0.7825,,,age_group=65+
+meps_external,calibrated_logistic_l2,prevalence_obs,0.0491,,,age_group=65+
+meps_external,calibrated_logistic_l2,prevalence_pred,0.0734,,,age_group=65+

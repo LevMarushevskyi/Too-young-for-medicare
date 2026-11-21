@@ -1,0 +1,16 @@
+dataset,bin,mean_pred,obs_rate,n,flagged
+nhis_cv,1,0.0195,,290,False
+nhis_cv,2,0.0311,0.0219,289,False
+nhis_cv,3,0.0458,0.0241,289,False
+nhis_cv,4,0.0597,0.0999,289,False
+nhis_cv,5,0.0733,0.0772,289,False
+nhis_cv,6,0.0873,0.084,289,False
+nhis_cv,7,0.1058,0.0825,289,False
+nhis_cv,8,0.1354,0.1019,289,False
+nhis_cv,9,0.1844,0.255,289,False
+nhis_cv,10,0.3182,0.2808,290,False
+meps_external,1,0.0225,,74,False
+meps_external,2,0.0455,,73,False
+meps_external,3,0.071,,74,False
+meps_external,4,0.1009,0.1288,73,False
+meps_external,5,0.2382,0.1851,74,False

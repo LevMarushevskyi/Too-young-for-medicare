@@ -1,0 +1,9 @@
+model,term,term_label,or,ci_lo,ci_hi,p_value,n,n_events,lonely_psu_method
+A,age10,Age (per 10 years),0.54,0.36,0.81,0.01,260,70,adjust
+A,treatedTRUE,Currently treated,1.5,0.54,4.2,0.01,260,70,adjust
+A,inc3Lower (<200% FPL),Lower income (vs high),2.98,1.15,7.73,0.01,260,70,adjust
+A,inc3Middle (200-399%),Middle income (vs high),0.8,0.3,2.1,0.01,260,70,adjust
+B,age_grpUnder 65,Under 65 (vs 65+),2.9,1.4,6.0,0.01,260,70,adjust
+B,treatedTRUE,Currently treated,1.5,0.54,4.2,0.01,260,70,adjust
+B,inc3Lower (<200% FPL),Lower income (vs high),2.98,1.15,7.73,0.01,260,70,adjust
+B,inc3Middle (200-399%),Middle income (vs high),0.8,0.3,2.1,0.01,260,70,adjust

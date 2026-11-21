@@ -1,0 +1,7 @@
+"measure","measure_label","group","pct","ci_lo","ci_hi","n_unweighted","suppressed","flagged"
+"prob_pay_bills","Problems paying medical bills, past 12 months","Under 65",17.9,15.1,21.1,827,FALSE,FALSE
+"prob_pay_bills","Problems paying medical bills, past 12 months","65+",7.6,6.3,9.2,2065,FALSE,FALSE
+"worry_bills_very_or_somewhat","Very or somewhat worried about paying medical bills if sick","Under 65",48.4,44.6,52.2,827,FALSE,FALSE
+"worry_bills_very_or_somewhat","Very or somewhat worried about paying medical bills if sick","65+",28.7,26.5,31.1,2060,FALSE,FALSE
+"cost_delay_any","Delayed or did not get medical care due to cost, past 12 months","Under 65",10.2,8,12.9,827,FALSE,FALSE
+"cost_delay_any","Delayed or did not get medical care due to cost, past 12 months","65+",3.1,2.3,4.2,2055,FALSE,FALSE

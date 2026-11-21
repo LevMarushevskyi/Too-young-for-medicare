@@ -1,0 +1,10 @@
+feature,feature_label,importance,importance_sd,method
+fpl_band,Family income (% of poverty line),0.0759,0.0165,permutation_auc_drop_nhis_insample_10rep
+age,Age,0.0495,0.0055,permutation_auc_drop_nhis_insample_10rep
+health_fair_poor,Self-rated health fair/poor,0.0428,0.0068,permutation_auc_drop_nhis_insample_10rep
+insurance,Health insurance,0.0198,0.0074,permutation_auc_drop_nhis_insample_10rep
+region,Census region,0.0127,0.004,permutation_auc_drop_nhis_insample_10rep
+employed,Currently employed,0.0023,0.0008,permutation_auc_drop_nhis_insample_10rep
+college,Bachelor's degree or higher,0.0021,0.0011,permutation_auc_drop_nhis_insample_10rep
+married,Married,0.0003,0.0004,permutation_auc_drop_nhis_insample_10rep
+under65,Under 65,-0.0001,0.001,permutation_auc_drop_nhis_insample_10rep

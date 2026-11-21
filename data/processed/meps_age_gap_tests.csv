@@ -1,0 +1,15 @@
+"measure","diff_pp","diff_lo","diff_hi","p_value","test","p_wald"
+"worry_bills",24,4.1,43.8,0.00885,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=63; weight CSAQW24F",0.019
+"fam_stability_worry",23.6,8.2,39,0.00105,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=63; weight CSAQW24F",0.00327
+"borrowed_debt",12.4,2.3,22.4,0.000245,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=63; weight CSAQW24F",0.0166
+"any_csaq_strain",33.7,14.8,52.6,0.000298,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=64; weight CSAQW24F",0.000693
+"debt_collector",11.2,1.7,20.6,0.0068,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.0209
+"missed_payment",10.3,2.3,18.2,0.000255,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.0116
+"late_rent",,,,0.00667,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F ; diff blanked: a group cell is suppressed",
+"late_util",8.9,0.7,17.1,0.00731,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.0332
+"any_fw_strain",16.9,6.4,27.5,0.000311,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.002
+"prob_pay_bills",8.1,-0.8,17.1,0.029,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=89; weight PERWT24F",0.0743
+"delay_or_forgo_care_cost",5.3,-1,11.7,0.0303,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.0998
+"delay_or_forgo_rx_cost",0.6,-4.4,5.5,0.814,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=90; weight PERWT24F",0.82
+"sacrificed_basics",3.1,-7.3,13.6,0.522,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=76; weight ESAQWT24F",0.552
+"high_oop_burden",0,-11.3,11.2,0.998,"p_value: Rao-Scott F (svychisq); diff/CI and p_wald: Under 65 - 65+ via svycontrast, t df=85; weight PERWT24F",0.998

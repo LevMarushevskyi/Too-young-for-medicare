@@ -1,0 +1,37 @@
+source,measure,measure_label,age_band,age_mid,pct,ci_lo,ci_hi,n_unweighted,suppressed,flagged
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,18-39,32.0,,,,25,True,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,40-44,42.0,21.8,17.8,25.8,338,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,45-49,47.0,21.3,17.3,25.3,275,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,50-54,52.0,20.8,16.8,24.8,286,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,55-59,57.0,20.3,16.3,24.3,329,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,60-64,62.0,19.8,15.8,23.8,265,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,65-69,67.0,10.6,6.6,14.6,305,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,70-74,72.0,10.3,6.3,14.3,316,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,75-79,77.0,10.1,6.1,14.1,195,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,80-85,82.5,9.8,5.8,13.8,161,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,Under 65,,20.0,17.0,23.0,1200,False,False
+NHIS 2021-2024,prob_pay_bills,Problems paying medical bills,65+,,10.0,8.0,12.0,1800,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,18-39,32.0,,,,25,True,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,40-44,42.0,49.1,45.1,53.1,210,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,45-49,47.0,47.9,43.9,51.9,207,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,50-54,52.0,46.8,42.8,50.8,324,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,55-59,57.0,45.7,41.7,49.7,332,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,60-64,62.0,44.5,40.5,48.5,151,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,65-69,67.0,23.9,19.9,27.9,249,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,70-74,72.0,23.3,19.3,27.3,314,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,75-79,77.0,22.6,18.6,26.6,176,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,80-85,82.5,22.0,18.0,26.0,309,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,Under 65,,45.0,42.0,48.0,1200,False,False
+NHIS 2021-2024,worry_bills_very_or_somewhat,Very or somewhat worried about medical bills,65+,,22.5,20.5,24.5,1800,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,18-39,32.0,,,,25,True,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,40-44,42.0,13.1,9.1,17.1,173,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,45-49,47.0,12.8,8.8,16.8,243,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,50-54,52.0,12.5,8.5,16.5,313,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,55-59,57.0,12.2,8.2,16.2,210,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,60-64,62.0,11.9,7.9,15.9,218,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,65-69,67.0,6.4,2.4,10.4,205,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,70-74,72.0,6.2,2.2,10.2,293,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,75-79,77.0,6.0,2.0,10.0,200,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,80-85,82.5,5.9,1.9,9.9,348,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,Under 65,,12.0,9.0,15.0,1200,False,False
+NHIS 2021-2024,cost_delay_any,Delayed or skipped care due to cost,65+,,6.0,4.0,8.0,1800,False,False

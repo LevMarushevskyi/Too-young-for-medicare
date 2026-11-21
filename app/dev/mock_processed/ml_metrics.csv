@@ -1,0 +1,18 @@
+dataset,model,metric,value,ci_lo,ci_hi,subgroup
+nhis_cv,M1,auc,0.72,0.6699999999999999,0.77,
+nhis_cv,M1,brier,0.15,,,
+nhis_cv,M1,prevalence_obs,0.2,,,
+nhis_cv,M1,prevalence_pred,0.21,,,
+meps_external,M1,auc,0.66,0.61,0.7100000000000001,
+meps_external,M1,brier,0.15,,,
+meps_external,M1,prevalence_obs,0.2,,,
+meps_external,M1,prevalence_pred,0.21,,,
+nhis_cv,M1,auc,0.7,,,Under 65
+nhis_cv,M1,prevalence_pred,0.27,,,Under 65
+nhis_cv,M1,prevalence_obs,0.28,,,Under 65
+nhis_cv,M1,auc,0.68,,,65+
+nhis_cv,M1,prevalence_pred,0.11,,,65+
+nhis_cv,M1,prevalence_obs,0.12,,,65+
+nhis_cv,M1,auc,0.66,,,fpl <100
+nhis_cv,M1,prevalence_pred,0.35,,,fpl <100
+nhis_cv,M1,prevalence_obs,0.36,,,fpl <100

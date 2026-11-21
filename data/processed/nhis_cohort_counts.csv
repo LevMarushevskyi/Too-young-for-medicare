@@ -1,0 +1,6 @@
+"year","n_sample_adults","n_breast_18plus","n_breast_female","n_breast_male","n_breast_under65","n_breast_65plus","n_breast_outcome_nonmissing","n_breast_outcome_yes","weighted_pop_pooled","vars_dropped"
+"2021",29482,696,,,206,490,694,77,,"URBRRL"
+"2022",27651,642,,,178,464,640,61,,"URBRRL"
+"2023",29522,752,,,213,539,750,64,,"URBRRL"
+"2024",32629,809,,,234,575,808,80,,"URBRRL"
+"2021-2024 pooled",119284,2899,2863,36,831,2068,2892,282,4453511,"URBRRL"
