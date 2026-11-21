@@ -534,9 +534,9 @@ def unexpected_expense(ue: pd.DataFrame | None, by: str = "income", show_n: bool
     gap = gap[(gap > 0.5) & gap.index.isin(ue.loc[ue["suppressed"].astype(bool), "group"])]
     if len(gap):
         fig.add_trace(go.Bar(y=list(gap.index), x=list(gap.values), orientation="h",
-                             name="Suppressed (too few respondents)", marker_color="#EEEEEE",
-                             marker_line=dict(color="#BDBDBD", width=1), hoverinfo="text",
-                             hovertext=["Suppressed: too few respondents"] * len(gap)))
+                             name="Hidden (too few respondents)", marker_color="#EEEEEE",
+                             marker_line=dict(color="#BDBDBD", width=1), hoverinfo="text", legendrank=2000,
+                             hovertext=["Hidden: too few respondents"] * len(gap)))
     for i, lvl in enumerate(levels):
         g = d[d["response_level"] == lvl].set_index("group").reindex(order[::-1]).dropna(subset=["pct"]).reset_index()
         lab = g["response_label"].iloc[0] if len(g) else str(lvl)
@@ -548,8 +548,8 @@ def unexpected_expense(ue: pd.DataFrame | None, by: str = "income", show_n: bool
             txt.append(s)
         fig.add_trace(go.Bar(y=g["group"], x=g["pct"], orientation="h", name=lab,
                              marker_color=palette[i % len(palette)], hovertext=txt, hoverinfo="text",
-                             text=[f"{p:.0f}%" if p >= 6 else "" for p in g["pct"]], textposition="inside",
-                             insidetextanchor="middle",
+                             text=[f"{p:.0f}%" if p >= 8 else "" for p in g["pct"]], textposition="inside",
+                             insidetextanchor="middle", legendrank=1000 + i,
                              textfont=dict(color="white" if i < 2 else INK)))
     fig.update_layout(barmode="stack")
     title = f"Confidence covering an unexpected expense, by {'age group' if by == 'age' else 'income'}"
@@ -568,13 +568,19 @@ def unexpected_expense(ue: pd.DataFrame | None, by: str = "income", show_n: bool
         title = (f"{a['pct'].sum():.0f}% of {nm_lo} survivors were not confident they could cover an unexpected "
                  f"expense vs {b['pct'].sum():.0f}% of {nm_hi} survivors")
     elif len(a) == len(low) and low:
-        title = (f"{a['pct'].sum():.0f}% of {nm_lo} survivors were not confident they could cover an unexpected "
-                 f"expense<br><sup>Not-confident categories suppressed for the {nm_hi} group (too few respondents)</sup>")
-    head, _, sub = title.partition("<br>")
-    layout(fig, _wrap(head, 90) + ("<br>" + sub if sub else ""), height=380)
-    fig.update_xaxes(title="Weighted % (100% stacked)", range=[0, 100], ticksuffix="%")
+        title = (f"{a['pct'].sum():.0f}% of {nm_lo} survivors were not confident they could cover "
+                 f"an unexpected expense")
+    title = _wrap(title, 48)
+    layout(fig, title, height=330 + 22 * title.count("<br>"))
+    # 100% stacked with % labels inside the bars, so the 0-100 axis adds nothing; hiding it frees room for the legend
+    fig.update_xaxes(title=None, range=[0, 100], showticklabels=False, ticks="", showline=False, showgrid=False)
     fig.update_yaxes(categoryorder="array", categoryarray=order[::-1])
-    fig.update_layout(legend=dict(traceorder="normal"))
+    # legend below the bars: it can wrap onto several rows without colliding with the title
+    fig.update_layout(legend=dict(orientation="h", traceorder="normal", x=0, xanchor="left",
+                                  y=-0.03, yanchor="top", font=dict(size=13)),
+                      margin=dict(b=120))
+    H = fig.layout.height; m = fig.layout.margin
+    fig.update_annotations(selector=dict(name="chart_title"), y=1 + 14 / max(100, H - m.t - m.b))
     sup_any = bool(ue["suppressed"].astype(bool).any())
     extra = "grey = categories combined because too few respondents to show separately" if sup_any else None
     return fig, caption(None, source="MEPS 2024", weight="PERWT24F", ci=False, extra=extra)
